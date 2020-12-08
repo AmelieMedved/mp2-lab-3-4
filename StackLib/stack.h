@@ -9,31 +9,33 @@ template <class T>
 class TStack
 {
 protected:
-  int size;
-  T* pStack;
-  int inS;
+  int size; // размер стека
+  T* pStack; // указатель на массив элементов
+  int indS; // индекс вершины стека
 
 public:
-  TStack(int size = 0);
-  TStack(TStack<T>& _v);
+  TStack(int size = 0); // конструктор по умолчанию
+  TStack(const TStack<T>& _v); // конструктор копирования
   ~TStack();
 
-  TStack<T>& operator =(TStack<T>& _v);
+  TStack<T>& operator =(const TStack<T>& _v); // оператор сравнения
 
-  void Push(T d);
-  T Get();
+  void Put(T d); // запись элемента в стек
+  T Get(); // извлечь последний записанный элемент стека
 
   template <class T1>
   friend ostream& operator<< (ostream& ostr, const TStack<T1> &A);
   template <class T1>
   friend istream& operator >> (istream& istr, TStack<T1> &A);
 
-  int Length();
+  int IsEmpty() const; // контроль пустоты стека
+  int IsFull() const; // контроль полноты стека
+  int GetSize(); // вернуть размер стека
 };
 
 template <class T1>
 ostream& operator<< (ostream& ostr, const TStack<T1> &A) {
-  for (int i = 0; i < A.inS; i++) {
+  for (int i = 0; i < A.indS; i++) {
     ostr << A.pStack[i] << endl;
   }
   return ostr;
@@ -53,7 +55,7 @@ istream& operator >> (istream& istr, TStack<T1> &A) {
 }
 
 template<class T>
-inline TStack<T>::TStack(int size)
+TStack<T>::TStack(int size)
 {
   if (size > 0)
   {
@@ -61,19 +63,19 @@ inline TStack<T>::TStack(int size)
     pStack = new T[size];
     for (int i = 0; i < size; i++)
       pStack[i] = 0;
-    this->inS = 0;
+    this->indS = 0;
   }
   else
     throw - 1;
 }
 
 template <class T>
-TStack<T>::TStack(TStack<T>& _v)
+TStack<T>::TStack(const TStack<T>& _v)
 {
   size = _v.size;
-  inS = _v.inS;
+  indS = _v.indS;
   pStack = new T [size];
-  for (int i = 0; i < size;i = i + 1)
+  for (int i = 0; i < size;i = i++)
     pStack[i] = _v.pStack[i];
 }
 template <class T>
@@ -88,7 +90,7 @@ TStack<T>::~TStack()
 }
 
 template <class T>
-TStack<T>& TStack<T>::operator =(TStack<T>& _v)
+TStack<T>& TStack<T>::operator =(const TStack<T>& _v)
 {
   if (this == &_v)
     return *this;
@@ -98,33 +100,45 @@ TStack<T>& TStack<T>::operator =(TStack<T>& _v)
   pStack = new T [size];
   for (int i = 0; i < size; i++)
     pStack[i] = _v.pStack[i];
-  inS = _v.inS;
+  indS = _v.indS;
   return *this;
 }
 
 template<class T>
-inline void TStack<T>::Push(T d)
+void TStack<T>::Put(T d)
 {
-  if (inS >= size)
+  if (indS >= size)
     throw - 1;
 
-  pStack[inS] = d;
-  inS++;
+  pStack[indS] = d;
+  indS++;
 }
 
 template<class T>
-inline T TStack<T>::Get()
+T TStack<T>::Get()
 {
-  if (inS == 0)
+  if (indS == 0)
     throw - 1;
 
-  T d= pStack[inS - 1];
-  inS--;
+  T d = pStack[indS - 1];
+  indS--;
   return d;
 }
 
+template<class T>
+int TStack<T>::IsEmpty() const
+{
+  return (indS == 0);
+}
+
+template<class T>
+int TStack<T>::IsFull() const
+{
+  return (size == indS);
+}
+
 template <class T>
-int TStack<T>::Length()
+int TStack<T>::GetSize()
 {
   return size;
 }

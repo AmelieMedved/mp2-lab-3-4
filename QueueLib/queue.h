@@ -9,25 +9,29 @@ template <class T>
 class TQueue
 {
 protected:
-  int sizeQ;
-  T* pQueue;
-  int indQ;
-  int end;
-  int count;
+  int sizeQ; // размер очереди
+  T* pQueue; // указатель на массив элементов
+  int indQ; // индекс элемента массива, в котором хранится первый элемент очереди
+  int end; // индекс элемента массива, в котором хранится последний элемент очереди 
+  int count; // количество запомненных в очереди значений
 public:
-  TQueue(int size = 0);
+  TQueue(int size = 0); // конструктор по умолчанию
+  TQueue(const TQueue<T>& _v);
   ~TQueue();
-  TQueue<T>& operator =(TQueue<T>& _v);
+  TQueue<T>& operator =(const TQueue<T>& _v);
 
-  void Push(T d);
-  T Get();
+  void Put(T d); // запись элемента в очередь
+  T Get(); // извлечь элемент из очереди
+ 
 
   template <class T1>
   friend ostream& operator<< (ostream& ostr, const TQueue<T1> &A);
   template <class T1>
   friend istream& operator >> (istream& istr, TQueue<T1> &A);
 
-  int Length();
+  int IsEmpty() const; // контроль пустоты очереди
+  int IsFull() const; // контроль полноты очереди
+  int GetSize(); // вернуть размер очереди
 };
 
 template <class T1>
@@ -54,7 +58,7 @@ istream& operator >> (istream& istr, TQueue<T1> &A) {
 
 
 template<class T>
-inline TQueue<T>::TQueue(int size)
+TQueue<T>::TQueue(int size)
 {
   if (size > 0)
   {
@@ -70,6 +74,19 @@ inline TQueue<T>::TQueue(int size)
     throw - 1;
 }
 
+template<class T>
+TQueue<T>::TQueue(const TQueue<T>& _v)
+{
+  sizeQ = _v.sizeQ;
+  indQ = _v.indQ;
+  pQueue = new T[sizeQ];
+  for (int i = 0; i < sizeQ; i = i++)
+    pQueue[i] = _v.pQueue[i];
+  indQ = _v.indQ;
+  end = _v.end;
+  count = _v.count;
+}
+
 template <class T>
 TQueue<T>::~TQueue()
 {
@@ -80,7 +97,7 @@ TQueue<T>::~TQueue()
 }
 
 template <class T>
-TQueue<T>& TQueue<T>::operator =(TQueue<T>& _v)
+TQueue<T>& TQueue<T>::operator =(const TQueue<T>& _v)
 {
   if (this == &_v)
     return *this;
@@ -97,28 +114,44 @@ TQueue<T>& TQueue<T>::operator =(TQueue<T>& _v)
 }
 
 template<class T>
-inline void TQueue<T>::Push(T d)
+void TQueue<T>::Put(T d)
 {
-  if (count >= sizeQ)
-    throw - 1;
+  if (count > sizeQ)
+    throw -1;
+  if (count == sizeQ)
+    end = 0;
 
   pQueue[end] = d;
   end = (end + 1) % sizeQ;
+  count++;
 }
 
 template<class T>
-inline T TQueue<T>::Get()
+T TQueue<T>::Get()
 {
   if (count == 0)
     throw - 1;
 
   T d = pQueue[indQ];
   indQ = (indQ + 1) % sizeQ;
+  count--;
   return d;
 }
 
+template<class T>
+int TQueue<T>::IsEmpty() const
+{
+  return (indQ == 0);
+}
+
+template<class T>
+int TQueue<T>::IsFull() const
+{
+  return (count == sizeQ);
+}
+
 template <class T>
-int TQueue<T>::Length()
+int TQueue<T>::GetSize()
 {
   return sizeQ;
 }
