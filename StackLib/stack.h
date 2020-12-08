@@ -1,5 +1,5 @@
-#ifndef _STACK_
-#define _STACK_
+#ifndef _STACK_H_
+#define _STACK_H_
 
 #include <iostream>
 
@@ -9,9 +9,9 @@ template <class T>
 class TStack
 {
 protected:
-  int length;
-  T* x;
-  int ind;
+  int size;
+  T* pStack;
+  int inS;
 
 public:
   TStack(int size = 0);
@@ -33,8 +33,8 @@ public:
 
 template <class T1>
 ostream& operator<< (ostream& ostr, const TStack<T1> &A) {
-  for (int i = 0; i < A.ind; i++) {
-    ostr << A.x[i] << endl;
+  for (int i = 0; i < A.inS; i++) {
+    ostr << A.pStack[i] << endl;
   }
   return ostr;
 }
@@ -57,11 +57,11 @@ inline TStack<T>::TStack(int size)
 {
   if (size > 0)
   {
-    this->length = size;
-    x = new T[length];
-    for (int i = 0; i < length; i++)
-      x[i] = 0;
-    this->ind = 0;
+    this->size = size;
+    pStack = new T[size];
+    for (int i = 0; i < size; i++)
+      pStack[i] = 0;
+    this->inS = 0;
   }
   else
     throw - 1;
@@ -70,21 +70,21 @@ inline TStack<T>::TStack(int size)
 template <class T>
 TStack<T>::TStack(TStack<T>& _v)
 {
-  length = _v.length;
-  ind = _v.ind;
-  x = new T [length];
-  for (int i = 0; i < length;i = i + 1)
-    x[i] = _v.x[i];
+  size = _v.size;
+  inS = _v.inS;
+  pStack = new T [size];
+  for (int i = 0; i < size;i = i + 1)
+    pStack[i] = _v.pStack[i];
 }
 template <class T>
 TStack<T>::~TStack()
 {
-  length = 0;
-  if (x != 0)
-    delete[] x;
+  size = 0;
+  if (pStack != 0)
+    delete[] pStack;
   else
     throw - 1;
-  x = 0;
+  pStack = 0;
 }
 
 template <class T>
@@ -93,40 +93,40 @@ TStack<T>& TStack<T>::operator =(TStack<T>& _v)
   if (this == &_v)
     return *this;
 
-  length = _v.length;
-  delete[] x;
-  x = new T [length];
-  for (int i = 0; i < length; i++)
-    x[i] = _v.x[i];
-  ind = _v.ind;
+  size = _v.size;
+  delete[] pStack;
+  pStack = new T [size];
+  for (int i = 0; i < size; i++)
+    pStack[i] = _v.pStack[i];
+  inS = _v.inS;
   return *this;
 }
 
 template<class T>
 inline void TStack<T>::Push(T d)
 {
-  if (ind >= length)
+  if (inS >= size)
     throw - 1;
 
-  x[ind] = d;
-  ind++;
+  pStack[inS] = d;
+  inS++;
 }
 
 template<class T>
 inline T TStack<T>::Get()
 {
-  if (ind == 0)
+  if (inS == 0)
     throw - 1;
 
-  T d= x[ind - 1];
-  ind--;
+  T d= pStack[inS - 1];
+  inS--;
   return d;
 }
 
 template <class T>
 int TStack<T>::Length()
 {
-  return length;
+  return size;
 }
 
-#endif //_STACK_
+#endif //_STACK_H_
