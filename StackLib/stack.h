@@ -49,7 +49,7 @@ istream& operator >> (istream& istr, TStack<T1> &A) {
   {
     T1 d;
     istr >> d;
-    A.Push(d);
+    A.Put(d);
   }
   return istr;
 }
