@@ -55,11 +55,11 @@ istream& operator >> (istream& istr, TStack<T1> &A) {
 }
 
 template<class T>
-TStack<T>::TStack(int size)
+TStack<T>::TStack(int _size)
 {
-  if (size > 0)
+  if (_size > 0)
   {
-    this->size = size;
+    this->size = _size;
     pStack = new T[size];
     for (int i = 0; i < size; i++)
       pStack[i] = 0;
@@ -82,11 +82,13 @@ template <class T>
 TStack<T>::~TStack()
 {
   size = 0;
-  if (pStack != 0)
+  if (pStack != nullptr)
+  {
     delete[] pStack;
+	pStack = 0;
+  }
   else
     throw -1;
-  pStack = 0;
 }
 
 template <class T>

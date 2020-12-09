@@ -91,8 +91,10 @@ template <class T>
 TQueue<T>::~TQueue()
 {
   sizeQ = 0;
-  if (pQueue != 0)
+  if (pQueue != nullptr)
     delete [] pQueue;
+  else
+	throw - 1;
   pQueue = 0;
 }
 
