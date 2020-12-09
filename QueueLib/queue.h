@@ -80,7 +80,7 @@ TQueue<T>::TQueue(const TQueue<T>& _v)
   sizeQ = _v.sizeQ;
   indQ = _v.indQ;
   pQueue = new T[sizeQ];
-  for (int i = 0; i < sizeQ; i = i++)
+  for (int i = 0; i < sizeQ; i++)
     pQueue[i] = _v.pQueue[i];
   indQ = _v.indQ;
   end = _v.end;

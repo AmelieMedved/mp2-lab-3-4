@@ -66,7 +66,7 @@ TStack<T>::TStack(int size)
     this->indS = 0;
   }
   else
-    throw - 1;
+    throw "negative size";
 }
 
 template <class T>
@@ -75,7 +75,7 @@ TStack<T>::TStack(const TStack<T>& _v)
   size = _v.size;
   indS = _v.indS;
   pStack = new T [size];
-  for (int i = 0; i < size;i = i++)
+  for (int i = 0; i < size;i++)
     pStack[i] = _v.pStack[i];
 }
 template <class T>
@@ -85,7 +85,7 @@ TStack<T>::~TStack()
   if (pStack != 0)
     delete[] pStack;
   else
-    throw - 1;
+    throw -1;
   pStack = 0;
 }
 
@@ -108,7 +108,7 @@ template<class T>
 void TStack<T>::Put(T d)
 {
   if (indS >= size)
-    throw - 1;
+    throw "stack overflow";
 
   pStack[indS] = d;
   indS++;
@@ -118,7 +118,7 @@ template<class T>
 T TStack<T>::Get()
 {
   if (indS == 0)
-    throw - 1;
+    throw "stack is empty";
 
   T d = pStack[indS - 1];
   indS--;
