@@ -1,5 +1,4 @@
 #include "queue.h"
-
 #include "../gtest/gtest.h"
 
 TEST(TQueue, can_create_queue_with_positive_length)

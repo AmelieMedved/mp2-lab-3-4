@@ -1,5 +1,5 @@
-#ifndef _MY_VECTOR_
-#define _MY_VECTOR_
+#ifndef _QUEUE_H_
+#define _QUEUE_H_
 
 #include <iostream>
 
@@ -159,4 +159,4 @@ int TQueue<T>::GetSize()
 }
 
 
-#endif
+#endif //_QUEUE_H_
